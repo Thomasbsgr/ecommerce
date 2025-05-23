@@ -5,8 +5,18 @@
     <title></title>
 </head>
 <body>
+    <a href="{% url 'index' %}">
     <h1>La boutique de Thomas</h1>
-    
+    </a>
+
+    {% if user.is_authenticated %}
+        {{ user.username }}
+        <a href="{% url 'logout' %}">Déconnexion</a>
+    {% else %}
+    <a href="{% url 'login' %}">Se connecter</a>
+    <a href="{% url 'signup' %}">S'inscrire</a>
+    {% endif %}
+
     {% block content %}
     {% endblock %}
 
