@@ -8,7 +8,7 @@ def signup(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = User.objects.create_user(username=username,
-                                 password=password)
+                                        password=password)
         login(request, user)
         return redirect('index')
 
