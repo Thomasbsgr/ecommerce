@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from config import settings
 
 from accounts.views import signup, logout_user, login_user
-from store.views import index, product_detail, add_to_cart, cart, delete_cart, create_checkout_session
+from store.views import index, product_detail, add_to_cart, cart, delete_cart, create_checkout_session, checkout_success
 
 urlpatterns = [
     path('', index, name='index'),
@@ -29,6 +29,7 @@ urlpatterns = [
     path('login/', login_user, name="login"),
     path('logout/', logout_user, name="logout"),
     path('cart/', cart, name="cart"),
+    path('cart/success', checkout_success, name="checkout-success"),
     path('cart/create-checkout-session', create_checkout_session, name="create-checkout-session"),
     path('cart/delete/', delete_cart, name="delete-cart"),
     path('product/<str:slug>/', product_detail, name="product"),

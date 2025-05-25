@@ -39,18 +39,24 @@ def cart(request):
     return render(request, 'store/cart.html', context={'orders': cart.orders.all()})
 
 def create_checkout_session(request):
+    cart = request.user.cart
+
+    line_items = [{'price': order.product.stripe_id,
+                   "quantity": order.quantity} for order in cart.orders.all()]
+
     session = stripe.checkout.Session.create(
         locale="fr",
         payment_method_types=['card'],
-        line_items=[{
-
-        }],
+        line_items=line_items,
         mode='payment',
-        success_url='http://127.0.0.1:8000',
-        cancel_url='http://127.0.0.1:8000'
+        success_url=request.build_absolute_uri(reverse('checkout-success')),
+        cancel_url='http://127.0.0.1:8000',
     )
 
     return redirect(session.url, code=303)
+
+def checkout_success(request):
+    return render(request, 'store/success.html')
 
 def delete_cart(request):
     if cart := request.user.cart:
